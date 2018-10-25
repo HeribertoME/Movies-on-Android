@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="placeholder_movie">Harry Potter</string>
+    <string name="placeholder_country">U.K.</string>
+</resources>
