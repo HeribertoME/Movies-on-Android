@@ -1,11 +1,13 @@
 package com.hmelizarraraz.movies;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.hmelizarraraz.movies.movies.ListAdapter;
@@ -63,12 +65,22 @@ public class MainActivity extends AppCompatActivity implements MoviesMVP.View {
     }
 
     @Override
-    public void updateData(ViewModel viewModel) {
+    protected void onStop() {
+        super.onStop();
+        presenter.rxJavaUnsuscribe();
+        resultList.clear();
+        listAdapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void updateData(ViewModel viewModel) {
+        resultList.add(viewModel);
+        listAdapter.notifyItemChanged(resultList.size() - 1);
+        Log.d(TAG, "Informacion nueva: " + viewModel.getName());
     }
 
     @Override
     public void showSnackbar(String s) {
-
+        Snackbar.make(rootView, s, Snackbar.LENGTH_SHORT).show();
     }
 }
