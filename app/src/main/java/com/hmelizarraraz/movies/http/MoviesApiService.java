@@ -9,6 +9,5 @@ import retrofit2.http.Query;
 public interface MoviesApiService {
 
     @GET("top_rated")
-    Observable<TopsMoviesRated> getTopMoviesTated(@Query("api_key") String api_key,
-                                                  @Query("page") Integer page);
+    Observable<TopsMoviesRated> getTopMoviesTated(@Query("page") Integer page);
 }
