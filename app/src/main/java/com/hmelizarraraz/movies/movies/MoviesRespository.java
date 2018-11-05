@@ -41,9 +41,9 @@ public class MoviesRespository implements Repository {
     @Override
     public Observable<Result> getResultFromNetwork() {
 
-        Observable<TopsMoviesRated> topsMoviesRatedObservable = moviesApiService.getTopMoviesTated(1)
-                .concatWith(moviesApiService.getTopMoviesTated(2))
-                .concatWith(moviesApiService.getTopMoviesTated(3));
+        Observable<TopsMoviesRated> topsMoviesRatedObservable = moviesApiService.getTopMoviesTated(1);
+                /*.concatWith(moviesApiService.getTopMoviesTated(2))
+                .concatWith(moviesApiService.getTopMoviesTated(3));*/
 
         return topsMoviesRatedObservable
                 .concatMap(new Function<TopsMoviesRated, Observable<Result>>() {
@@ -73,7 +73,7 @@ public class MoviesRespository implements Repository {
 
     @Override
     public Observable<Result> getResultData() {
-        return null;
+        return getResultFromCache().switchIfEmpty(getResultFromNetwork());
     }
 
     @Override
@@ -88,7 +88,10 @@ public class MoviesRespository implements Repository {
                 .concatMap(new Function<OmdbApi, Observable<String>>() {
                     @Override
                     public Observable<String> apply(OmdbApi omdbApi) {
-                        return Observable.just(omdbApi.getCountry());
+                        if (omdbApi == null || omdbApi.getCountry() == null)
+                            return Observable.just("Desconocido");
+                        else
+                            return Observable.just(omdbApi.getCountry());
                     }
                 })
                 .doOnNext(new Consumer<String>() {
@@ -112,6 +115,6 @@ public class MoviesRespository implements Repository {
 
     @Override
     public Observable<String> getCountryData() {
-        return null;
+        return getCountryFromCache().switchIfEmpty(getCountryFromNetwork());
     }
 }
