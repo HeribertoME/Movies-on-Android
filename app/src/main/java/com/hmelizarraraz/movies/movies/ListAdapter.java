@@ -25,7 +25,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListItemViewHo
     @NonNull
     @Override
     public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_list_item, viewGroup, true);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.movie_list_item, viewGroup, false);
         return new ListItemViewHolder(itemView);
     }
 
